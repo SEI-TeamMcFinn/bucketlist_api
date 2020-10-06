@@ -60,7 +60,7 @@ router.get('/buckets/:id', requireToken, (req, res, next) => {
 router.post('/buckets', requireToken, (req, res, next) => {
   // set owner of new bucket to be current user
   req.body.bucket.owner = req.user.id
-
+  console.log(req.body.bucket)
   Bucket.create(req.body.bucket)
     // respond to succesful `create` with status 201 and JSON of new "bucket"
     .then(bucket => {
