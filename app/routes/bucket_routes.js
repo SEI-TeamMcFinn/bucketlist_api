@@ -43,6 +43,23 @@ router.get('/buckets', requireToken, (req, res, next) => {
     .catch(next)
 })
 
+// INDEX PUBLIC
+// GET /public
+router.get('/buckets/public', requireToken, (req, res, next) => {
+  Bucket.find({ privacy: false, owner: { $ne: req.user.id } })
+    .populate('owner')
+    .then(buckets => {
+      // `buckets` will be an array of Mongoose documents
+      // we want to convert each one to a POJO, so we use `.map` to
+      // apply `.toObject` to each one
+      return buckets.map(bucket => bucket.toObject())
+    })
+    // respond with status 200 and JSON of the buckets
+    .then(buckets => res.status(200).json({ buckets: buckets }))
+    // if an error occurs, pass it to the handler
+    .catch(next)
+})
+
 // SHOW
 // GET /buckets/5a7db6c74d55bc51bdf39793
 router.get('/buckets/:id', requireToken, (req, res, next) => {
