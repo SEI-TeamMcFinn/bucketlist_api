@@ -43,6 +43,23 @@ router.get('/buckets', requireToken, (req, res, next) => {
     .catch(next)
 })
 
+// INDEX PUBLIC
+// GET /public
+router.get('/buckets/public', requireToken, (req, res, next) => {
+  Bucket.find({ privacy: false, owner: { $ne: req.user.id } }, null, {sort: { 'owner': 1 }})
+    .populate('owner')
+    .then(buckets => {
+      // `buckets` will be an array of Mongoose documents
+      // we want to convert each one to a POJO, so we use `.map` to
+      // apply `.toObject` to each one
+      return buckets.map(bucket => bucket.toObject())
+    })
+    // respond with status 200 and JSON of the buckets
+    .then(buckets => res.status(200).json({ buckets: buckets }))
+    // if an error occurs, pass it to the handler
+    .catch(next)
+})
+
 // SHOW
 // GET /buckets/5a7db6c74d55bc51bdf39793
 router.get('/buckets/:id', requireToken, (req, res, next) => {
@@ -60,7 +77,7 @@ router.get('/buckets/:id', requireToken, (req, res, next) => {
 router.post('/buckets', requireToken, (req, res, next) => {
   // set owner of new bucket to be current user
   req.body.bucket.owner = req.user.id
-  console.log(req.body.bucket)
+
   Bucket.create(req.body.bucket)
     // respond to succesful `create` with status 201 and JSON of new "bucket"
     .then(bucket => {

@@ -13,6 +13,10 @@ const bucketSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  privacy: {
+    type: Boolean,
+    default: true
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
