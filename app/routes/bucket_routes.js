@@ -46,7 +46,7 @@ router.get('/buckets', requireToken, (req, res, next) => {
 // INDEX PUBLIC
 // GET /public
 router.get('/buckets/public', requireToken, (req, res, next) => {
-  Bucket.find({ privacy: false, owner: { $ne: req.user.id } })
+  Bucket.find({ privacy: false, owner: { $ne: req.user.id } }, null, {sort: { 'owner': 1 }})
     .populate('owner')
     .then(buckets => {
       // `buckets` will be an array of Mongoose documents
