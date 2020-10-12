@@ -53,8 +53,7 @@ Add your own scripts to test your custom API.
 
 ## ERD
 
-![ERD](![0f2bb980-071a-11eb-987a-373c55a3c469](https://user-images.githubusercontent.com/21346239/95743011-03cb1780-0c5f-11eb-8374-af45289e498c.png)
-)
+![ERD](![0f2bb980-071a-11eb-987a-373c55a3c469](https://user-images.githubusercontent.com/21346239/95745277-c36d9880-0c62-11eb-9d4d-cc2f0cbeb744.png)
 
 
 ### Authentication
